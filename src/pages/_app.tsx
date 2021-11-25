@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import MetaTags from "@/components/metaTags";
+import MetaTags from "@/components/MetaTags";
 
 const metaData = {
     title: "My Next JS Website",
