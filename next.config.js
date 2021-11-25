@@ -1,8 +1,9 @@
+const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
 const path = require("path");
 
-const config = {
-    plugins: [],
-    settings: {
+const config = (phase) => {
+    let plugins = [];
+    let settings = {
         reactStrictMode: true,
         webpack: (config) => {
             config.resolve.alias = {
@@ -13,8 +14,20 @@ const config = {
 
             return config;
         },
-    },
+    };
+
+    if (phase !== PHASE_DEVELOPMENT_SERVER) {
+        // do something in production mode
+    }
+
+    return {
+        plugins,
+        settings,
+    };
 };
 
 const pipe = (funcs) => (value) => funcs.reduce((v, f) => f(v), value);
-module.exports = pipe(config.plugins)(config.settings);
+module.exports = (phase, { defaultConfig }) => {
+    const cfg = config(phase, { defaultConfig });
+    return pipe(cfg.plugins)(cfg.settings);
+};
